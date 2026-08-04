@@ -1,0 +1,141 @@
+Campaign_Name,City,Industry,Date,revenue,ad_spend,Impressions,Clicks,Screen_ID,Hours_Booked,Hours_Committed
+City Expansion Campaign,Mumbai,Retail,2026-06-01,14480.5,8118.54,9952,136,SCR-007,7.4,8
+Brand Recall Drive,Pune,Finance,2026-06-01,45706.2,22124.61,46618,984,SCR-004,6.7,8
+Festive Season Push,Pune,Automotive,2026-06-01,11411.78,5127.76,14698,201,SCR-004,9.3,10
+City Expansion Campaign,Mumbai,Finance,2026-06-01,38527.76,21246.9,13164,422,SCR-002,9.3,10
+Weekend Footfall Booster,Pune,Automotive,2026-06-02,30539.71,22062.64,13229,584,SCR-004,10.1,12
+New Launch Awareness,Pune,FMCG,2026-06-02,44060.49,23606.4,51920,1073,SCR-006,6.5,8
+Brand Recall Drive,Mumbai,Automotive,2026-06-02,10053.4,7831.53,49943,1874,SCR-007,4.5,6
+New Launch Awareness,Mumbai,Automotive,2026-06-02,54076.07,23744.01,12337,227,SCR-007,8.7,10
+Brand Recall Drive,Delhi,Automotive,2026-06-03,18004.67,15350.1,17150,340,SCR-003,10.2,12
+Festive Season Push,Delhi,Real Estate,2026-06-03,3622.28,4036.56,40343,550,SCR-003,6.8,8
+Summer Sale Blitz,Mumbai,Finance,2026-06-03,35839.13,14640.52,47052,2345,SCR-007,4.7,6
+City Expansion Campaign,Pune,Automotive,2026-06-03,4573.48,6479.47,15310,332,SCR-005,9.4,10
+City Expansion Campaign,Mumbai,Automotive,2026-06-03,10127.63,7376.04,49874,1511,SCR-002,7.6,8
+City Expansion Campaign,Mumbai,Real Estate,2026-06-03,7390.85,5461.09,29243,863,SCR-001,8.1,10
+Summer Sale Blitz,Mumbai,Finance,2026-06-04,13635.72,14719.54,12535,615,SCR-002,9.5,12
+City Expansion Campaign,Mumbai,FMCG,2026-06-04,36050.77,18177.09,43343,1742,SCR-007,10.9,12
+Brand Recall Drive,Chennai,Retail,2026-06-04,18359.77,10437.88,24246,460,SCR-008,6.0,8
+Weekend Footfall Booster,Mumbai,FMCG,2026-06-04,18133.11,21911.98,12417,573,SCR-001,7.0,8
+City Expansion Campaign,Delhi,Real Estate,2026-06-04,43633.31,20261.63,45762,1322,SCR-003,4.8,8
+New Launch Awareness,Mumbai,Finance,2026-06-04,7864.68,4191.77,38606,1720,SCR-007,3.7,6
+Festive Season Push,Pune,FMCG,2026-06-05,14754.64,12281.4,43146,1205,SCR-004,6.2,8
+City Expansion Campaign,Mumbai,Retail,2026-06-05,52287.67,21392.61,50738,2535,SCR-002,7.0,8
+Festive Season Push,Mumbai,Retail,2026-06-05,29053.6,24676.79,18789,472,SCR-007,11.1,12
+Weekend Footfall Booster,Chennai,FMCG,2026-06-05,42363.58,24311.61,20445,447,SCR-008,4.6,6
+Brand Recall Drive,Delhi,Retail,2026-06-06,12553.56,7088.15,41281,545,SCR-003,7.9,8
+City Expansion Campaign,Pune,Real Estate,2026-06-06,9046.54,4803.63,46962,544,SCR-004,8.0,10
+Weekend Footfall Booster,Pune,FMCG,2026-06-06,22043.61,17777.18,25407,656,SCR-006,9.8,10
+Summer Sale Blitz,Chennai,Real Estate,2026-06-06,4997.64,4611.74,44896,2237,SCR-008,5.0,10
+Summer Sale Blitz,Pune,Automotive,2026-06-06,41967.08,21342.39,26676,435,SCR-004,5.3,6
+Weekend Footfall Booster,Mumbai,FMCG,2026-06-06,9080.67,5354.79,25332,370,SCR-002,8.0,10
+Festive Season Push,Pune,Real Estate,2026-06-07,18186.85,22979.5,40016,802,SCR-005,9.1,12
+New Launch Awareness,Delhi,Automotive,2026-06-07,22248.87,15136.97,18589,737,SCR-003,4.1,6
+Weekend Footfall Booster,Delhi,Real Estate,2026-06-07,15286.49,15815.21,10361,449,SCR-003,4.1,8
+Summer Sale Blitz,Pune,FMCG,2026-06-07,11071.21,5261.46,52699,1052,SCR-006,11.2,12
+Festive Season Push,Delhi,FMCG,2026-06-07,24926.07,19204.42,35020,384,SCR-003,11.6,12
+New Launch Awareness,Delhi,Retail,2026-06-08,24086.29,21889.05,33070,1484,SCR-003,11.5,12
+Festive Season Push,Pune,Retail,2026-06-08,23058.61,10221.76,51255,908,SCR-004,8.8,10
+Weekend Footfall Booster,Pune,Retail,2026-06-08,15263.58,8746.73,15559,701,SCR-006,5.8,10
+New Launch Awareness,Pune,Finance,2026-06-08,12857.62,5544.21,47728,2356,SCR-006,7.4,8
+City Expansion Campaign,Pune,Automotive,2026-06-09,22797.86,17613.23,36265,464,SCR-004,7.8,10
+New Launch Awareness,Pune,Finance,2026-06-09,8830.72,9504.41,29376,766,SCR-005,10.1,12
+Weekend Footfall Booster,Delhi,Real Estate,2026-06-09,10549.23,15054.62,45296,998,SCR-003,9.5,10
+City Expansion Campaign,Pune,Finance,2026-06-09,11950.58,7701.43,36952,1023,SCR-006,6.6,8
+Weekend Footfall Booster,Pune,Retail,2026-06-10,21150.67,9829.23,57226,1109,SCR-006,3.8,8
+Brand Recall Drive,Mumbai,Finance,2026-06-10,31220.22,15664.76,35160,1597,SCR-002,9.7,12
+Weekend Footfall Booster,Mumbai,Retail,2026-06-10,16654.02,6869.51,59014,1593,SCR-001,5.7,12
+Summer Sale Blitz,Chennai,FMCG,2026-06-10,43823.4,24733.63,38450,1411,SCR-008,11.2,12
+City Expansion Campaign,Mumbai,Real Estate,2026-06-10,30094.11,19360.42,37223,1708,SCR-007,9.6,10
+New Launch Awareness,Chennai,FMCG,2026-06-10,20980.8,18697.99,25996,717,SCR-008,8.9,10
+Festive Season Push,Pune,Finance,2026-06-11,11150.14,7706.96,53478,861,SCR-004,8.5,10
+Festive Season Push,Mumbai,Finance,2026-06-11,41034.14,18301.51,58449,1950,SCR-007,11.8,12
+New Launch Awareness,Mumbai,Finance,2026-06-11,26814.45,15014.91,43272,1726,SCR-007,6.5,8
+Brand Recall Drive,Mumbai,Finance,2026-06-11,41190.76,20559.13,30028,1103,SCR-001,11.9,12
+Summer Sale Blitz,Mumbai,Real Estate,2026-06-12,7132.14,4846.84,44987,1642,SCR-007,9.8,12
+New Launch Awareness,Pune,Finance,2026-06-12,26841.76,22352.08,29420,691,SCR-004,9.2,12
+Summer Sale Blitz,Mumbai,Automotive,2026-06-12,37813.69,20187.13,22694,817,SCR-001,4.8,6
+Summer Sale Blitz,Delhi,FMCG,2026-06-12,13272.66,5516.57,16272,470,SCR-003,11.3,12
+Festive Season Push,Mumbai,FMCG,2026-06-12,4497.24,3564.93,28384,406,SCR-002,11.1,12
+Summer Sale Blitz,Pune,Retail,2026-06-12,38653.56,21706.45,53691,2195,SCR-004,5.3,6
+New Launch Awareness,Mumbai,Automotive,2026-06-13,23422.78,10507.09,12519,378,SCR-007,8.3,12
+Weekend Footfall Booster,Chennai,FMCG,2026-06-13,27086.58,14478.43,36540,622,SCR-008,11.5,12
+City Expansion Campaign,Pune,Automotive,2026-06-13,11221.04,4906.58,24088,1041,SCR-005,7.1,8
+Weekend Footfall Booster,Mumbai,Automotive,2026-06-13,16013.03,10150.31,9880,294,SCR-007,8.4,10
+Weekend Footfall Booster,Pune,Real Estate,2026-06-14,8171.65,7203.24,8665,265,SCR-005,11.3,12
+Weekend Footfall Booster,Chennai,Finance,2026-06-14,5546.2,5047.17,37371,1559,SCR-008,7.2,8
+Brand Recall Drive,Pune,Finance,2026-06-14,16289.55,10739.83,56885,1821,SCR-006,7.8,10
+Festive Season Push,Pune,Retail,2026-06-14,20425.85,19768.17,56685,1781,SCR-006,6.6,8
+City Expansion Campaign,Pune,Retail,2026-06-14,13609.48,10939.38,20721,452,SCR-005,7.9,8
+City Expansion Campaign,Pune,FMCG,2026-06-14,31336.84,13799.33,49803,2228,SCR-005,8.6,10
+Summer Sale Blitz,Pune,Finance,2026-06-15,9846.47,11815.56,15476,663,SCR-005,5.7,6
+New Launch Awareness,Mumbai,FMCG,2026-06-15,21552.63,12155.83,15762,509,SCR-002,6.8,8
+Brand Recall Drive,Pune,Real Estate,2026-06-15,29948.28,16662.6,36103,802,SCR-005,4.8,6
+Festive Season Push,Pune,Retail,2026-06-15,14867.59,15143.83,18292,358,SCR-005,10.8,12
+Summer Sale Blitz,Pune,Automotive,2026-06-16,18145.31,21911.35,54331,1157,SCR-004,7.6,8
+Weekend Footfall Booster,Pune,Finance,2026-06-16,40276.41,17247.96,15521,493,SCR-004,3.6,8
+New Launch Awareness,Pune,Finance,2026-06-16,13803.57,9690.01,16149,464,SCR-005,8.7,10
+Summer Sale Blitz,Mumbai,Finance,2026-06-16,7354.29,8508.09,56138,1285,SCR-001,5.5,6
+New Launch Awareness,Mumbai,FMCG,2026-06-16,15283.54,12729.05,38834,1194,SCR-001,10.5,12
+Brand Recall Drive,Pune,Finance,2026-06-17,5245.46,5301.2,29843,681,SCR-006,9.9,12
+Brand Recall Drive,Mumbai,Finance,2026-06-17,24737.36,10112.02,13771,310,SCR-001,11.5,12
+Summer Sale Blitz,Chennai,Finance,2026-06-17,22593.36,10959.15,11552,202,SCR-008,9.6,12
+City Expansion Campaign,Delhi,Automotive,2026-06-17,10274.59,13663.66,36712,1660,SCR-003,6.6,8
+City Expansion Campaign,Mumbai,Retail,2026-06-18,35333.22,23084.46,22725,1129,SCR-007,4.7,6
+Weekend Footfall Booster,Pune,Real Estate,2026-06-18,52650.13,21363.93,54229,1135,SCR-005,6.3,8
+Festive Season Push,Delhi,Retail,2026-06-18,28592.86,21797.07,26104,1067,SCR-003,8.2,10
+New Launch Awareness,Chennai,FMCG,2026-06-18,17938.27,10592.73,37264,1175,SCR-008,10.0,12
+Weekend Footfall Booster,Pune,Real Estate,2026-06-19,15619.56,20061.98,33098,640,SCR-004,11.4,12
+Brand Recall Drive,Delhi,Finance,2026-06-19,31450.71,24237.78,10426,156,SCR-003,5.2,6
+City Expansion Campaign,Chennai,Retail,2026-06-19,54202.93,22160.53,55346,872,SCR-008,6.0,6
+New Launch Awareness,Mumbai,Retail,2026-06-19,30317.62,21905.53,29532,1302,SCR-007,9.7,10
+City Expansion Campaign,Mumbai,Real Estate,2026-06-20,21980.21,18056.79,12484,242,SCR-001,6.9,8
+Summer Sale Blitz,Mumbai,Finance,2026-06-20,17906.44,22875.33,18902,713,SCR-002,5.1,6
+Festive Season Push,Pune,Real Estate,2026-06-20,20557.44,20435.43,35004,1142,SCR-004,5.1,6
+Weekend Footfall Booster,Pune,Finance,2026-06-20,15211.2,13145.3,46217,726,SCR-004,9.7,10
+Brand Recall Drive,Pune,Real Estate,2026-06-20,58959.06,23795.18,18353,237,SCR-005,8.6,10
+Brand Recall Drive,Pune,FMCG,2026-06-21,7412.51,5346.37,33211,1465,SCR-005,10.0,10
+New Launch Awareness,Mumbai,Finance,2026-06-21,46287.28,22031.48,25988,268,SCR-001,5.6,6
+New Launch Awareness,Pune,Real Estate,2026-06-21,8268.44,7182.9,31089,583,SCR-004,7.8,8
+Weekend Footfall Booster,Mumbai,Automotive,2026-06-21,31788.65,15750.62,59682,1649,SCR-001,5.0,6
+Brand Recall Drive,Delhi,FMCG,2026-06-21,30271.24,22282.13,16661,690,SCR-003,8.1,10
+New Launch Awareness,Pune,Retail,2026-06-22,14874.0,6096.65,38692,1877,SCR-006,11.4,12
+New Launch Awareness,Mumbai,Finance,2026-06-22,7797.53,5718.95,8912,183,SCR-002,9.6,10
+New Launch Awareness,Mumbai,FMCG,2026-06-22,38406.89,22453.17,38898,427,SCR-002,7.3,8
+Brand Recall Drive,Pune,Finance,2026-06-22,29721.13,23817.75,15646,243,SCR-005,5.6,12
+City Expansion Campaign,Delhi,Finance,2026-06-22,46666.13,23886.38,37729,937,SCR-003,11.2,12
+Weekend Footfall Booster,Mumbai,Finance,2026-06-23,18162.85,23933.47,48347,1272,SCR-002,8.6,10
+Festive Season Push,Pune,Retail,2026-06-23,42493.13,22837.32,52936,1307,SCR-006,4.8,6
+Summer Sale Blitz,Chennai,Retail,2026-06-23,41783.97,17068.84,51435,950,SCR-008,4.9,6
+Festive Season Push,Pune,Retail,2026-06-23,34400.51,15900.43,58145,1870,SCR-004,6.3,8
+City Expansion Campaign,Mumbai,Automotive,2026-06-23,31813.53,14884.74,17482,865,SCR-001,4.5,6
+New Launch Awareness,Pune,Real Estate,2026-06-24,8203.21,8838.09,29218,310,SCR-004,11.2,12
+Brand Recall Drive,Chennai,Automotive,2026-06-24,14222.86,12944.12,41635,1405,SCR-008,5.9,6
+Weekend Footfall Booster,Pune,Finance,2026-06-24,6776.93,4338.16,50161,2435,SCR-005,9.3,12
+Weekend Footfall Booster,Chennai,Retail,2026-06-24,5807.02,6263.34,13294,304,SCR-008,9.0,10
+Brand Recall Drive,Mumbai,Retail,2026-06-25,40729.8,21761.44,59976,2283,SCR-007,7.8,8
+Brand Recall Drive,Pune,Finance,2026-06-25,7475.79,5091.89,34131,909,SCR-006,7.9,10
+Brand Recall Drive,Mumbai,Retail,2026-06-25,10401.72,5124.42,13594,186,SCR-002,7.2,8
+City Expansion Campaign,Pune,Retail,2026-06-25,36165.88,17637.49,34922,843,SCR-006,5.4,6
+New Launch Awareness,Mumbai,Real Estate,2026-06-25,19256.54,17448.2,41253,763,SCR-002,5.3,6
+New Launch Awareness,Pune,Finance,2026-06-26,37902.8,21005.39,44763,2192,SCR-004,5.5,6
+Weekend Footfall Booster,Pune,Retail,2026-06-26,46639.93,19773.01,19823,414,SCR-005,6.6,10
+City Expansion Campaign,Mumbai,Retail,2026-06-26,21092.55,24379.83,17297,685,SCR-007,6.9,8
+Festive Season Push,Pune,Automotive,2026-06-26,42044.34,23710.96,55290,1270,SCR-006,5.6,6
+Weekend Footfall Booster,Mumbai,Automotive,2026-06-27,20467.72,13684.56,37039,1351,SCR-002,8.8,10
+New Launch Awareness,Mumbai,Retail,2026-06-27,26456.4,16048.95,26562,986,SCR-007,5.2,10
+City Expansion Campaign,Mumbai,Retail,2026-06-27,7242.02,7647.15,21397,471,SCR-001,7.8,10
+Brand Recall Drive,Mumbai,FMCG,2026-06-27,29577.96,18480.77,16466,415,SCR-007,6.6,10
+Brand Recall Drive,Mumbai,Finance,2026-06-28,27136.6,15666.7,13102,582,SCR-001,10.2,12
+New Launch Awareness,Delhi,Real Estate,2026-06-28,19950.3,23234.93,38152,1651,SCR-003,5.4,6
+City Expansion Campaign,Mumbai,Finance,2026-06-28,16555.63,7874.59,28334,1128,SCR-002,4.7,6
+City Expansion Campaign,Pune,Automotive,2026-06-28,45544.96,21016.87,31009,1212,SCR-004,3.8,8
+City Expansion Campaign,Delhi,Retail,2026-06-29,25812.77,16814.87,19609,942,SCR-003,11.6,12
+Weekend Footfall Booster,Pune,Automotive,2026-06-29,24455.22,13316.26,17893,493,SCR-006,8.4,10
+Summer Sale Blitz,Pune,Finance,2026-06-29,13520.68,11112.23,37616,432,SCR-005,5.3,6
+Brand Recall Drive,Mumbai,Finance,2026-06-29,15675.84,10073.59,45464,1640,SCR-001,6.9,8
+Weekend Footfall Booster,Mumbai,Real Estate,2026-06-30,12573.84,8450.36,50344,850,SCR-002,10.8,12
+New Launch Awareness,Pune,Automotive,2026-06-30,18550.72,10444.08,33389,879,SCR-006,4.3,10
+Weekend Footfall Booster,Mumbai,Automotive,2026-06-30,40670.19,17444.41,24514,954,SCR-007,7.2,8
+Festive Season Push,Pune,Automotive,2026-06-30,20585.34,11623.08,50995,1934,SCR-006,5.1,6
+New Launch Awareness,Delhi,Real Estate,2026-06-30,16641.06,12314.94,14124,506,SCR-003,9.9,10

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DOOH Advertising Performance</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    (function () {
+      try {
+        if (localStorage.getItem('doohDashboardData')) {
+          document.documentElement.classList.add('has-saved-dashboard');
+        }
+      } catch (e) {
+
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <div id="uploadScreen">
+    <div class="upload-header">
+      <div class="badge">DOOH Intelligence</div>
+      <h1>Upload Campaign Data</h1>
+      <p>Import your CSV or Excel file — dashboard builds itself automatically</p>
+    </div>
+
+    <div class="upload-card">
+
+      <div class="drop-zone" id="dropZone">
+        <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" aria-label="Choose a CSV or Excel file to upload" />
+        <div class="upload-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+        </div>
+        <h3>Drop your file here, or <span>browse</span></h3>
+        <p>Supports CSV, XLS, XLSX</p>
+        <div class="type-pills">
+          <span>.csv</span><span>.xlsx</span><span>.xls</span>
+        </div>
+      </div>
+      <a href="/dummy_dataset.csv" download="dooh_sample_dataset.csv" class="sample-download-link">
+        ⬇ Download sample dataset to test
+      </a>
+      <button id="loadFromDbBtn" class="reset-btn"
+        style="width:100%; margin-top:0.75rem; background: var(--blue-dark); color:#fff;">
+        🗄️ Load from Database
+      </button>
+
+      <div class="file-info" id="fileInfo">
+        <div class="file-meta">
+          <div class="file-meta-icon">
+            <svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div class="file-meta-text">
+            <div class="name" id="fileName"></div>
+            <div class="size" id="fileSize"></div>
+          </div>
+          <button class="remove-btn" id="removeBtn" aria-label="Remove selected file">
+            <svg viewBox="0 0 24 24">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-bg">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <span class="progress-label" id="progressLabel"></span>
+        </div>
+      </div>
+
+      <div class="col-map-preview" id="colMapPreview" style="display:none;">
+        <div class="col-map-title">🔍 Detected Columns</div>
+        <div class="col-map-grid" id="colMapGrid"></div>
+      </div>
+
+      <div class="msg" id="msg"></div>
+
+    </div>
+  </div>
+
+  <div id="dashboardScreen" class="hidden">
+    <div class="dash-topbar no-print">
+      <div class="dash-title">
+        <strong>DOOH Advertising Performance</strong>
+        <span>Digital Out-of-Home — Campaign Intelligence Report</span>
+        <span id="uploadedFileName" class="uploaded-file-name"></span>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button class="reset-btn" id="downloadReportBtn" aria-label="Download this dashboard as a PDF report">📄
+          Download Report</button>
+        <button class="reset-btn" id="resetBtn" aria-label="Clear this dashboard and upload a new file">↑ Upload New
+          File</button>
+      </div>
+    </div>
+
+    <div class="filters no-print">
+      <select id="filterCity" aria-label="Filter by city">
+        <option value="">All Cities</option>
+      </select>
+      <select id="filterIndustry" aria-label="Filter by industry">
+        <option value="">All Industries</option>
+      </select>
+      <select id="filterCampaign" aria-label="Filter by campaign">
+        <option value="">All Campaigns</option>
+      </select>
+      <input type="date" id="filterDateFrom" aria-label="Filter start date" />
+      <input type="date" id="filterDateTo" aria-label="Filter end date" />
+      <span id="dateRangeHint" class="date-range-hint"></span>
+      <button class="filter-reset" id="filterReset" aria-label="Reset all filters">Reset</button>
+    </div>
+
+    <div id="noDataMessage" class="no-data-message hidden">
+      ⚠️ No data matches the selected filters. Try widening the City, Industry, Campaign, or Date range.
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Revenue</div>
+        <div class="kpi-value" id="kpiRevenue">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Impressions</div>
+        <div class="kpi-value" id="kpiImpressions">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg ROI %</div>
+        <div class="kpi-value" id="kpiRoi">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Clicks</div>
+        <div class="kpi-value" id="kpiClicks">—</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Ad Spend</div>
+        <div class="kpi-value" id="kpiAdSpend">—</div>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">Revenue Over Time</div>
+        <canvas id="chartRevTime"></canvas>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Impressions Over Time</div>
+        <canvas id="chartImpTime"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-row">
+      <div class="chart-box">
+        <div class="chart-title">Industry by Revenue</div>
+        <canvas id="chartIndustry"></canvas>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Revenue by City</div>
+        <canvas id="chartCity"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-box chart-full">
+      <div class="chart-title">Top 10 Campaigns by ROI</div>
+      <canvas id="chartRoi"></canvas>
+    </div>
+
+    <div class="table-row">
+      <div class="table-box">
+        <div class="table-title">▲ Top 5 Campaigns by ROI</div>
+        <div class="table-wrap">
+          <table id="tableTop"></table>
+        </div>
+      </div>
+      <div class="table-box">
+        <div class="table-title">▼ Bottom 5 Campaigns by ROI</div>
+        <div class="table-wrap">
+          <table id="tableBottom"></table>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-box" id="screenSection" style="display:none; margin: 0 24px 24px;">
+      <div class="table-title">
+        📺 Screen Performance
+        <input type="text" id="screenSearch" class="table-search" placeholder="Search by Screen ID or City..."
+          aria-label="Search screens by ID or city" />
+      </div>
+      <div class="table-wrap">
+        <table id="tableScreens"></table>
+      </div>
+    </div>
+
+    <div class="table-box" id="discrepancySection" style="display:none; margin: 0 24px 24px;">
+      <div class="table-title">⚠️ Delivery Discrepancies</div>
+      <div class="table-wrap">
+        <table id="tableDiscrepancies"></table>
+      </div>
+    </div>
+
+    <div class="table-box" id="anomalySection" style="display:none; margin: 0 24px 24px;">
+      <div class="table-title">🔍 Screen Anomalies</div>
+      <div class="table-wrap">
+        <table id="tableAnomalies"></table>
+      </div>
+    </div>
+
+    <div class="insights-box">
+      <div class="insights-title">🔍 Auto Insights</div>
+      <div class="insights-grid" id="insightsGrid"></div>
+    </div>
+
+    <div class="clean-log" id="cleanLog"></div>
+
+  </div><!-- end dashboardScreen -->
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="script.js"></script>
+
+</body>
+</html>
