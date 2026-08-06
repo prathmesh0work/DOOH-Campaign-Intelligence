@@ -116,6 +116,13 @@
       <input type="date" id="filterDateFrom" aria-label="Filter start date" />
       <input type="date" id="filterDateTo" aria-label="Filter end date" />
       <span id="dateRangeHint" class="date-range-hint"></span>
+      <select id="currencySelect" aria-label="Select display currency">
+        <option value="INR">₹ INR</option>
+        <option value="USD">$ USD</option>
+        <option value="EUR">€ EUR</option>
+        <option value="GBP">£ GBP</option>
+        <option value="AED">AED</option>
+      </select>
       <button class="filter-reset" id="filterReset" aria-label="Reset all filters">Reset</button>
     </div>
 
@@ -211,6 +218,18 @@
       <div class="table-wrap">
         <table id="tableAnomalies"></table>
       </div>
+    </div>
+
+    <div class="comparison-box">
+      <div class="comparison-header">
+        <div class="comparison-title">📊 Period Comparison</div>
+        <div class="comparison-toggle">
+          <button id="compareWeekBtn" class="compare-btn active" type="button">Week</button>
+          <button id="compareMonthBtn" class="compare-btn" type="button">Month</button>
+        </div>
+      </div>
+      <div class="comparison-range" id="comparisonRangeLabel"></div>
+      <div class="comparison-grid" id="comparisonGrid"></div>
     </div>
 
     <div class="insights-box">
