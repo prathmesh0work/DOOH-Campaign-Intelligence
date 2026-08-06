@@ -8,7 +8,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-Vanilla-F7DF1E?logo=javascript&logoColor=black)
 ![Chart.js](https://img.shields.io/badge/Chart.js-Visualization-FF6384?logo=chart.js&logoColor=white)
 ![pandas](https://img.shields.io/badge/pandas-Data%20Cleaning-150458?logo=pandas&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
+
 
 ---
 
