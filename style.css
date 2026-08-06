@@ -554,6 +554,103 @@ tbody td {
   white-space: nowrap;
 }
 
+/* Period comparison */
+.comparison-box {
+  margin: 0 1.5rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.comparison-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.comparison-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.comparison-toggle {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.compare-btn {
+  background: #f1f5f9;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.compare-btn.active {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+
+.comparison-range {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin: 0.5rem 0 1rem;
+}
+
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.compare-card {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+}
+
+.compare-label {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.compare-current {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 0.2rem;
+}
+
+.compare-change {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-top: 0.15rem;
+}
+
+.compare-change.up {
+  color: var(--green);
+}
+
+.compare-change.down {
+  color: var(--red);
+}
+
+.compare-prev {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+}
+
 /* Auto insights */
 .insights-box {
   margin: 0 1.5rem 1rem;
