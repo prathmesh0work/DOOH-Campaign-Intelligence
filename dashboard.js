@@ -3,6 +3,49 @@ var chartInstances = {};
 var minDate = '';
 var maxDate = '';
 
+var CURRENCIES = {
+  INR: { symbol: '₹', rate: 1 },
+  USD: { symbol: '$', rate: null },
+  EUR: { symbol: '€', rate: null },
+  GBP: { symbol: '£', rate: null },
+  AED: { symbol: 'AED ', rate: null }
+};
+var currentCurrency = 'INR';
+
+function fetchFxRates(callback) {
+  fetch('https://api.frankfurter.app/latest?from=INR&to=USD,EUR,GBP,AED')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      Object.keys(data.rates || {}).forEach(function (code) {
+        if (CURRENCIES[code]) CURRENCIES[code].rate = data.rates[code];
+      });
+      if (callback) callback();
+    })
+    .catch(function (err) {
+      console.warn('FX rate fetch failed, staying in INR', err);
+    });
+}
+
+function convert(amountInInr) {
+  var c = CURRENCIES[currentCurrency];
+  if (!c || !c.rate) return amountInInr; 
+  return amountInInr * c.rate;
+}
+
+function currencySymbol() {
+  return CURRENCIES[currentCurrency].symbol;
+}
+
+function setupCurrencySelector() {
+  var sel = document.getElementById('currencySelect');
+  if (!sel || sel.dataset.wired) return;
+  sel.dataset.wired = 'true';
+  sel.addEventListener('change', function () {
+    currentCurrency = sel.value;
+    onFilterChange(); 
+  });
+}
+
 function renderDashboard(data, log, cols, fullResult) {
   allData = data;
 
@@ -15,6 +58,9 @@ function renderDashboard(data, log, cols, fullResult) {
     renderDiscrepancyTable(fullResult);
     renderAnomalyTable(fullResult);
     setupDownloadButton();
+    setupCurrencySelector();
+    setupComparisonToggle();
+    fetchFxRates(function () { onFilterChange(); }); 
   } catch(e) {
     console.error('Dashboard render error:', e);
   }
@@ -40,7 +86,7 @@ var screenShowOccupancy = false;
 
 function renderScreenTable(fullResult) {
   var section = document.getElementById('screenSection');
-  if (!section) return; // HTML not updated yet, skip quietly
+  if (!section) return; 
 
   if (!fullResult || !fullResult.has_screen_data || !fullResult.screens || fullResult.screens.length === 0) {
     section.style.display = 'none';
@@ -89,7 +135,7 @@ function renderScreenRows(screens) {
     return '<tr>' +
       '<td>' + s.screen_id + '</td>' +
       '<td>' + s.city + '</td>' +
-      '<td>' + fmtNum(s.revenue) + '</td>' +
+      '<td>' + currencySymbol() + fmtNum(convert(s.revenue)) + '</td>' +
       '<td>' + s.roi.toFixed(1) + '%</td>' +
       '<td>' + s.ctr.toFixed(3) + '%</td>' +
       '<td>' + s.campaign_count + '</td>' +
@@ -276,6 +322,7 @@ function renderAll(data) {
   renderCharts(data);
   renderTables(data);
   renderInsights(data);
+  renderComparison(data);
 }
 
 function renderKPIs(data) {
@@ -286,8 +333,8 @@ function renderKPIs(data) {
     document.getElementById('kpiAdSpend').textContent = '—';
     document.getElementById('kpiRoi').textContent = '—%';
     document.getElementById('kpiCtr').textContent = '—%';
-    document.getElementById('kpiCpc').textContent = '₹—';
-    document.getElementById('kpiCpm').textContent = '₹—';
+    document.getElementById('kpiCpc').textContent = currencySymbol() + '—';
+    document.getElementById('kpiCpm').textContent = currencySymbol() + '—';
     return;
   }
 
@@ -300,14 +347,14 @@ function renderKPIs(data) {
   var cpc = avgCol(data, 'cpc');
   var cpm = avgCol(data, 'cpm');
 
-  setText('kpiRevenue', fmtNum(revenue));
+  setText('kpiRevenue', currencySymbol() + fmtNum(convert(revenue)));
   setText('kpiImpressions', fmtNum(impressions));
   setText('kpiClicks', fmtNum(clicks));
-  setText('kpiAdSpend', fmtNum(spend));
+  setText('kpiAdSpend', currencySymbol() + fmtNum(convert(spend)));
   setText('kpiRoi', roi.toFixed(1) + '%');
   setText('kpiCtr', ctr.toFixed(3) + '%');
-  setText('kpiCpc', '₹' + cpc.toFixed(2));
-  setText('kpiCpm', '₹' + cpm.toFixed(2));
+  setText('kpiCpc', currencySymbol() + convert(cpc).toFixed(2));
+  setText('kpiCpm', currencySymbol() + convert(cpm).toFixed(2));
 }
 
 function renderCharts(data) {
@@ -320,24 +367,24 @@ function renderCharts(data) {
 
   var byDate = groupBy(data, 'Date');
   var dates = Object.keys(byDate).sort();
-  var revByDate = dates.map(function(d) { return sumCol(byDate[d], 'revenue'); });
+  var revByDate = dates.map(function(d) { return convert(sumCol(byDate[d], 'revenue')); });
   var impByDate = dates.map(function(d) { return sumCol(byDate[d], 'Impressions'); });
 
-  drawLine('chartRevTime', dates, revByDate, '#3b82f6', 'Revenue');
-  drawLine('chartImpTime', dates, impByDate, '#6366f1', 'Impressions');
+  drawLine('chartRevTime', dates, revByDate, '#3b82f6', 'Revenue', true);
+  drawLine('chartImpTime', dates, impByDate, '#6366f1', 'Impressions', false);
 
   var byIndustry = groupBy(data, 'Industry');
   var industries = Object.keys(byIndustry).sort(function(a, b) {
     return sumCol(byIndustry[b], 'revenue') - sumCol(byIndustry[a], 'revenue');
   });
-  var revByIndustry = industries.map(function(i) { return sumCol(byIndustry[i], 'revenue'); });
+  var revByIndustry = industries.map(function(i) { return convert(sumCol(byIndustry[i], 'revenue')); });
   drawBar('chartIndustry', industries, revByIndustry, '#3b82f6');
 
   var byCity = groupBy(data, 'City');
   var cities = Object.keys(byCity).sort(function(a, b) {
     return sumCol(byCity[b], 'revenue') - sumCol(byCity[a], 'revenue');
   });
-  var revByCity = cities.map(function(c) { return sumCol(byCity[c], 'revenue'); });
+  var revByCity = cities.map(function(c) { return convert(sumCol(byCity[c], 'revenue')); });
   drawBar('chartCity', cities, revByCity, '#6366f1');
 
   var byCampaign = groupBy(data, 'Campaign_Name');
@@ -345,7 +392,7 @@ function renderCharts(data) {
     return {
       name: name.length > 22 ? name.slice(0, 22) + '…' : name,
       roi: avgCol(byCampaign[name], 'roi_percent'),
-      rev: sumCol(byCampaign[name], 'revenue')
+      rev: convert(sumCol(byCampaign[name], 'revenue'))
     };
   });
   campaignList.sort(function(a, b) { return b.roi - a.roi; });
@@ -354,7 +401,7 @@ function renderCharts(data) {
   drawDualBar('chartRoi', top10.map(function(c) { return c.name; }), top10.map(function(c) { return c.roi; }), top10.map(function(c) { return c.rev; }));
 }
 
-function drawLine(id, labels, values, color, label) {
+function drawLine(id, labels, values, color, label, isCurrency) {
   destroyChart(id);
   var canvas = document.getElementById(id);
   if (!canvas) return;
@@ -378,7 +425,7 @@ function drawLine(id, labels, values, color, label) {
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: { maxTicksLimit: 8, font: { size: 10 } } },
-        y: { ticks: { font: { size: 10 }, callback: function(v) { return fmtNum(v); } } }
+        y: { ticks: { font: { size: 10 }, callback: function(v) { return (isCurrency ? currencySymbol() : '') + fmtNum(v); } } }
       }
     }
   });
@@ -404,7 +451,7 @@ function drawBar(id, labels, values, color) {
       plugins: { legend: { display: false } },
       scales: {
         x: { ticks: { font: { size: 9 } } },
-        y: { ticks: { font: { size: 10 }, callback: function(v) { return fmtNum(v); } } }
+        y: { ticks: { font: { size: 10 }, callback: function(v) { return currencySymbol() + fmtNum(v); } } }
       }
     }
   });
@@ -444,7 +491,7 @@ function drawDualBar(id, labels, roiValues, revValues) {
         y: { position: 'left', ticks: { font: { size: 10 } } },
         y2: {
           position: 'right',
-          ticks: { font: { size: 10 }, callback: function(v) { return fmtNum(v); } },
+          ticks: { font: { size: 10 }, callback: function(v) { return currencySymbol() + fmtNum(v); } },
           grid: { drawOnChartArea: false }
         }
       }
@@ -498,8 +545,8 @@ function buildTable(id, rows, cols) {
   rows.forEach(function(r) {
     html += '<tr>';
     html += '<td>' + r.name + '</td>';
-    html += '<td>₹' + fmtNum(r.revenue) + '</td>';
-    html += '<td>₹' + fmtNum(r.ad_spend) + '</td>';
+    html += '<td>' + currencySymbol() + fmtNum(convert(r.revenue)) + '</td>';
+    html += '<td>' + currencySymbol() + fmtNum(convert(r.ad_spend)) + '</td>';
     html += '<td>' + r.roi.toFixed(2) + '</td>';
     html += '<td>' + r.ctr.toFixed(3) + '</td>';
     html += '<td>' + fmtNum(r.impressions) + '</td>';
@@ -532,8 +579,8 @@ function renderInsights(data) {
   var overallRoi = totalSpend > 0 ? (((totalRev - totalSpend) / totalSpend) * 100).toFixed(1) : 0;
 
   var insights = [
-    { label: 'Top City', text: topCity.key + ' generated the highest revenue of ₹' + fmtNum(topCity.val) + '.' },
-    { label: 'Top Industry', text: topIndustry.key + ' leads all industries with ₹' + fmtNum(topIndustry.val) + ' revenue.' },
+    { label: 'Top City', text: topCity.key + ' generated the highest revenue of ' + currencySymbol() + fmtNum(convert(topCity.val)) + '.' },
+    { label: 'Top Industry', text: topIndustry.key + ' leads all industries with ' + currencySymbol() + fmtNum(convert(topIndustry.val)) + ' revenue.' },
     { label: 'Best ROI Campaign', text: '"' + topRoi.key + '" has the best ROI at ' + topRoi.val.toFixed(1) + '%.' },
     { label: 'Lowest ROI', text: '"' + botRoi.key + '" has the lowest ROI at ' + botRoi.val.toFixed(1) + '% — review spend.' },
     { label: 'Best CTR Campaign', text: '"' + topCtr.key + '" drives the highest CTR at ' + topCtr.val.toFixed(3) + '%.' },
@@ -547,6 +594,114 @@ function renderInsights(data) {
     grid.appendChild(card);
   });
 }
+
+/* ============ PERIOD COMPARISON (new) ============ */
+var comparisonMode = 'week'; // 'week' or 'month'
+
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+
+function addDays(dateStr, days) {
+  var d = new Date(dateStr + 'T00:00:00');
+  d.setDate(d.getDate() + days);
+  return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
+}
+
+function getPeriodRanges(data, mode) {
+  var dates = data.map(function(r) { return r.Date; }).filter(Boolean).sort();
+  if (!dates.length) return null;
+  var latest = dates[dates.length - 1];
+
+  if (mode === 'week') {
+    var curStart = addDays(latest, -6);
+    var curEnd = latest;
+    var prevEnd = addDays(curStart, -1);
+    var prevStart = addDays(prevEnd, -6);
+    return { curStart: curStart, curEnd: curEnd, prevStart: prevStart, prevEnd: prevEnd, curLabel: 'This Week', prevLabel: 'Last Week' };
+  }
+
+  var latestD = new Date(latest + 'T00:00:00');
+  var curStart = latestD.getFullYear() + '-' + pad2(latestD.getMonth() + 1) + '-01';
+  var curEnd = latest;
+  var prevMonthAnchor = new Date(latestD.getFullYear(), latestD.getMonth() - 1, 1);
+  var prevStart = prevMonthAnchor.getFullYear() + '-' + pad2(prevMonthAnchor.getMonth() + 1) + '-01';
+  var prevEndDate = new Date(latestD.getFullYear(), latestD.getMonth(), 0); // last day of previous month
+  var prevEnd = prevEndDate.getFullYear() + '-' + pad2(prevEndDate.getMonth() + 1) + '-' + pad2(prevEndDate.getDate());
+  return { curStart: curStart, curEnd: curEnd, prevStart: prevStart, prevEnd: prevEnd, curLabel: 'This Month', prevLabel: 'Last Month' };
+}
+
+function filterByRange(data, start, end) {
+  return data.filter(function(r) { return r.Date && r.Date >= start && r.Date <= end; });
+}
+
+function renderComparison(data) {
+  var grid = document.getElementById('comparisonGrid');
+  var labelEl = document.getElementById('comparisonRangeLabel');
+  if (!grid) return; // HTML not updated yet, skip quietly
+
+  if (!data || !data.length) {
+    grid.innerHTML = '';
+    if (labelEl) labelEl.textContent = '';
+    return;
+  }
+
+  var ranges = getPeriodRanges(data, comparisonMode);
+  if (!ranges) { grid.innerHTML = ''; return; }
+
+  var curData = filterByRange(data, ranges.curStart, ranges.curEnd);
+  var prevData = filterByRange(data, ranges.prevStart, ranges.prevEnd);
+
+  if (labelEl) {
+    labelEl.textContent = ranges.curLabel + ' (' + ranges.curStart + ' to ' + ranges.curEnd + ')  vs  ' +
+      ranges.prevLabel + ' (' + ranges.prevStart + ' to ' + ranges.prevEnd + ')';
+  }
+
+  var metrics = [
+    { key: 'revenue', label: 'Revenue', currency: true },
+    { key: 'ad_spend', label: 'Ad Spend', currency: true },
+    { key: 'Impressions', label: 'Impressions', currency: false },
+    { key: 'Clicks', label: 'Clicks', currency: false }
+  ];
+
+  var html = '';
+  metrics.forEach(function(m) {
+    var curVal = sumCol(curData, m.key);
+    var prevVal = sumCol(prevData, m.key);
+    var change = prevVal > 0 ? ((curVal - prevVal) / prevVal * 100) : (curVal > 0 ? 100 : 0);
+    var up = change >= 0;
+    var curDisplay = m.currency ? currencySymbol() + fmtNum(convert(curVal)) : fmtNum(curVal);
+    var prevDisplay = m.currency ? currencySymbol() + fmtNum(convert(prevVal)) : fmtNum(prevVal);
+
+    html += '<div class="compare-card">' +
+      '<div class="compare-label">' + m.label + '</div>' +
+      '<div class="compare-current">' + curDisplay + '</div>' +
+      '<div class="compare-change ' + (up ? 'up' : 'down') + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(change).toFixed(1) + '%</div>' +
+      '<div class="compare-prev">vs ' + prevDisplay + ' prior period</div>' +
+      '</div>';
+  });
+
+  grid.innerHTML = html;
+}
+
+function setupComparisonToggle() {
+  var weekBtn = document.getElementById('compareWeekBtn');
+  var monthBtn = document.getElementById('compareMonthBtn');
+  if (!weekBtn || !monthBtn || weekBtn.dataset.wired) return;
+  weekBtn.dataset.wired = 'true';
+
+  weekBtn.addEventListener('click', function() {
+    comparisonMode = 'week';
+    weekBtn.classList.add('active');
+    monthBtn.classList.remove('active');
+    renderComparison(allData);
+  });
+  monthBtn.addEventListener('click', function() {
+    comparisonMode = 'month';
+    monthBtn.classList.add('active');
+    weekBtn.classList.remove('active');
+    renderComparison(allData);
+  });
+}
+/* ============ END PERIOD COMPARISON ============ */
 
 function showCleanLog(log) {
   var el = document.getElementById('cleanLog');
@@ -627,8 +782,16 @@ function setText(id, val) {
 function fmtNum(n) {
   n = Number(n);
   if (isNaN(n)) return '0';
-  if (n >= 10000000) return (n / 10000000).toFixed(1) + 'Cr';
-  if (n >= 100000) return (n / 100000).toFixed(1) + 'L';
+
+  if (currentCurrency === 'INR') {
+    if (n >= 10000000) return (n / 10000000).toFixed(1) + 'Cr';
+    if (n >= 100000) return (n / 100000).toFixed(1) + 'L';
+    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+    return n.toFixed(1);
+  }
+
+  if (n >= 1000000000) return (n / 1000000000).toFixed(1) + 'B';
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
   if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
   return n.toFixed(1);
 }
