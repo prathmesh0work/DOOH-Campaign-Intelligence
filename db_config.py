@@ -7,12 +7,12 @@ load_dotenv()
 
 def get_connection():
 	return mysql.connector.connect(
-			host=os.getenv("DB_HOST"),
-        	port=os.getenv("DB_PORT"),
-        	user=os.getenv("DB_USER"),
-        	password=os.getenv("DB_PASSWORD"),
-        	database=os.getenv("DB_NAME")
-        )
+		host=os.getenv("DB_HOST"),
+		port=os.getenv("DB_PORT"),
+		user=os.getenv("DB_USER"),
+		password=os.getenv("DB_PASSWORD"),
+		database=os.getenv("DB_NAME")
+	)
 
 def fetch_campaigns_from_db():
 	conn = get_connection()
@@ -24,23 +24,25 @@ def fetch_campaigns_from_db():
 	cursor.close()
 	conn.close()
 
-	rows =[]
+	rows = []
 	for db_row in db_rows:
 		rows.append({
-			"Campaign_Name":db_row["campaign_name"],
-			"City":db_row["city"],
-			"Industry":db_row["industry"],
-			"Screen_ID":db_row["screen_id"],
-			"Date":db_row["campaign_date"].strftime("%Y-%m-%d"),
-			"revenue":float(db_row["revenue"]),
-			"ad_spend":float(db_row["ad_spend"]),
-			"Impressions":db_row["impressions"],
-			"Clicks":db_row["clicks"],
-			"Hours_Booked":float(db_row["hours_booked"]),
-			"Hours_Committed":float(db_row["hours_committed"])
+			"Campaign_Name": db_row["campaign_name"],
+			"City": db_row["city"],
+			"Industry": db_row["industry"],
+			"Screen_ID": db_row["screen_id"],
+			"Date": db_row["campaign_date"].strftime("%Y-%m-%d"),
+			"revenue": float(db_row["revenue"]),
+			"ad_spend": float(db_row["ad_spend"]),
+			"Impressions": db_row["impressions"],
+			"Clicks": db_row["clicks"],
+			"Hours_Booked": float(db_row["hours_booked"]),
+			"Hours_Committed": float(db_row["hours_committed"])
 		})
+
 	rows = add_calculated_metrics(rows)
 	return rows
+
 def insert_campaigns(clean_rows):
 	conn = get_connection()
 	cursor = conn.cursor()
@@ -67,11 +69,9 @@ def insert_campaigns(clean_rows):
 		)
 		cursor.execute(insert_query,values)
 		row_inserted += 1
+
 	conn.commit()
 	cursor.close()
 	conn.close()
-	
+
 	return row_inserted
-
-
-	
