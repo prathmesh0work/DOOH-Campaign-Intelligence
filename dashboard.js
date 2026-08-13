@@ -74,7 +74,7 @@ function showFileName(fullResult) {
 
 function setupDownloadButton() {
   var btn = document.getElementById('downloadReportBtn');
-  if (!btn || btn.dataset.wired) return; // avoid attaching the listener twice
+  if (!btn || btn.dataset.wired) return; 
   btn.dataset.wired = 'true';
   btn.addEventListener('click', function() {
     window.print();
@@ -595,8 +595,7 @@ function renderInsights(data) {
   });
 }
 
-/* ============ PERIOD COMPARISON (new) ============ */
-var comparisonMode = 'week'; // 'week' or 'month'
+var comparisonMode = 'week'; 
 
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -636,7 +635,7 @@ function filterByRange(data, start, end) {
 function renderComparison(data) {
   var grid = document.getElementById('comparisonGrid');
   var labelEl = document.getElementById('comparisonRangeLabel');
-  if (!grid) return; // HTML not updated yet, skip quietly
+  if (!grid) return; 
 
   if (!data || !data.length) {
     grid.innerHTML = '';
@@ -701,7 +700,6 @@ function setupComparisonToggle() {
     renderComparison(allData);
   });
 }
-/* ============ END PERIOD COMPARISON ============ */
 
 function showCleanLog(log) {
   var el = document.getElementById('cleanLog');
