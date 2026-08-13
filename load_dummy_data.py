@@ -17,4 +17,9 @@ def load_csv_to_database(csv_path):
     print(f"Inserted {row_inserted} rows into the campaigns table")
 
 if __name__ == "__main__":
-    load_csv_to_database("dummy_dataset.csv")
+    try:
+        load_csv_to_database("dummy_dataset.csv")
+    except FileNotFoundError:
+        print("Could not find dummy_dataset.csv — check the file is in this folder.")
+    except Exception as error:
+        print(f"Failed to load data: {error}")
