@@ -144,7 +144,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
               document.getElementById('uploadScreen').classList.add('hidden');
               document.getElementById('dashboardScreen').classList.remove('hidden');
-
+          
               renderDashboard(result.data, result.log, result.cols, result);
 
             } catch(e) {
