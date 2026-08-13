@@ -176,18 +176,18 @@
     </div>
 
     <div class="chart-box chart-full">
-      <div class="chart-title">Top 10 Campaigns by ROI</div>
+      <div class="chart-title" id="chartRoiTitle">Top 10 Campaigns by ROI</div>
       <canvas id="chartRoi"></canvas>
     </div>
 
-    <div class="table-row">
+    <div class="table-row" id="tableRow">
       <div class="table-box">
-        <div class="table-title">▲ Top 5 Campaigns by ROI</div>
+        <div class="table-title" id="tableTopTitle">▲ Top 5 Campaigns by ROI</div>
         <div class="table-wrap">
           <table id="tableTop"></table>
         </div>
       </div>
-      <div class="table-box">
+      <div class="table-box" id="bottomTableBox">
         <div class="table-title">▼ Bottom 5 Campaigns by ROI</div>
         <div class="table-wrap">
           <table id="tableBottom"></table>
@@ -239,7 +239,7 @@
 
     <div class="clean-log" id="cleanLog"></div>
 
-  </div><!-- end dashboardScreen -->
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="dashboard.js"></script>
