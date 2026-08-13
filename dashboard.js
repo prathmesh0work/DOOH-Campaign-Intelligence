@@ -51,7 +51,7 @@ function renderDashboard(data, log, cols, fullResult) {
 
   try {
     populateFilters(data);
-    renderAll(data);
+    onFilterChange();
     showCleanLog(log);
     showFileName(fullResult);
     renderScreenTable(fullResult);
@@ -86,7 +86,7 @@ var screenShowOccupancy = false;
 
 function renderScreenTable(fullResult) {
   var section = document.getElementById('screenSection');
-  if (!section) return; 
+  if (!section) return;
 
   if (!fullResult || !fullResult.has_screen_data || !fullResult.screens || fullResult.screens.length === 0) {
     section.style.display = 'none';
@@ -261,7 +261,7 @@ function populateFilters(data) {
         document.getElementById('filterDateFrom').value = dates[0];
         document.getElementById('filterDateTo').value = dates[dates.length - 1];
       }
-      renderAll(allData);
+      onFilterChange();
     });
   }
 }
@@ -276,20 +276,23 @@ function onFilterChange() {
   var from = fromEl.value;
   var to = toEl.value;
 
-  // Stop From/To from crossing each other
   toEl.min = from || minDate;
   fromEl.max = to || maxDate;
 
-  var filtered = allData.filter(function(r) {
+  var byNonDateFilters = allData.filter(function(r) {
     if (city && r.City !== city) return false;
     if (industry && r.Industry !== industry) return false;
     if (campaign && r.Campaign_Name !== campaign) return false;
+    return true;
+  });
+
+  var filtered = byNonDateFilters.filter(function(r) {
     if (from && r.Date < from) return false;
     if (to && r.Date > to) return false;
     return true;
   });
 
-  renderAll(filtered);
+  renderAll(filtered, byNonDateFilters, from, to);
 }
 
 function fillDropdown(id, options) {
@@ -308,7 +311,7 @@ function fillDropdown(id, options) {
   });
 }
 
-function renderAll(data) {
+function renderAll(data, unfilteredByDate, from, to) {
   var noDataEl = document.getElementById('noDataMessage');
   if (noDataEl) {
     if (!data || data.length === 0) {
@@ -322,7 +325,7 @@ function renderAll(data) {
   renderCharts(data);
   renderTables(data);
   renderInsights(data);
-  renderComparison(data);
+  renderComparison(unfilteredByDate || data, from, to);
 }
 
 function renderKPIs(data) {
@@ -397,6 +400,11 @@ function renderCharts(data) {
   });
   campaignList.sort(function(a, b) { return b.roi - a.roi; });
   var top10 = campaignList.slice(0, 10);
+
+  var chartTitle = document.getElementById('chartRoiTitle');
+  if (chartTitle) {
+    chartTitle.textContent = campaignList.length > 10 ? 'Top 10 Campaigns by ROI' : 'Campaigns by ROI';
+  }
 
   drawDualBar('chartRoi', top10.map(function(c) { return c.name; }), top10.map(function(c) { return c.roi; }), top10.map(function(c) { return c.rev; }));
 }
@@ -506,10 +514,18 @@ function destroyChart(id) {
   }
 }
 
+var MIN_CAMPAIGNS_TO_SPLIT = 10; 
+
 function renderTables(data) {
+  var bottomBox = document.getElementById('bottomTableBox');
+  var topTitle = document.getElementById('tableTopTitle');
+  var tableRow = document.getElementById('tableRow');
+
   if (!data || data.length === 0) {
     document.getElementById('tableTop').innerHTML = '<tr><td>No data</td></tr>';
     document.getElementById('tableBottom').innerHTML = '<tr><td>No data</td></tr>';
+    if (bottomBox) bottomBox.style.display = '';
+    if (tableRow) tableRow.style.gridTemplateColumns = '';
     return;
   }
 
@@ -530,8 +546,20 @@ function renderTables(data) {
   rows.sort(function(a, b) { return b.roi - a.roi; });
 
   var cols = ['Campaign', 'Revenue', 'Ad Spend', 'ROI %', 'CTR %', 'Impressions'];
-  buildTable('tableTop', rows.slice(0, 5), cols);
-  buildTable('tableBottom', rows.slice(-5).reverse(), cols);
+
+  if (rows.length < MIN_CAMPAIGNS_TO_SPLIT) {
+    buildTable('tableTop', rows, cols);
+    document.getElementById('tableBottom').innerHTML = '';
+    if (bottomBox) bottomBox.style.display = 'none';
+    if (topTitle) topTitle.textContent = '📊 Campaigns Ranked by ROI';
+    if (tableRow) tableRow.style.gridTemplateColumns = '1fr';
+  } else {
+    buildTable('tableTop', rows.slice(0, 5), cols);
+    buildTable('tableBottom', rows.slice(-5).reverse(), cols);
+    if (bottomBox) bottomBox.style.display = '';
+    if (topTitle) topTitle.textContent = '▲ Top 5 Campaigns by ROI';
+    if (tableRow) tableRow.style.gridTemplateColumns = '';
+  }
 }
 
 function buildTable(id, rows, cols) {
@@ -595,7 +623,6 @@ function renderInsights(data) {
   });
 }
 
-var comparisonMode = 'week'; 
 
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
 
@@ -605,53 +632,48 @@ function addDays(dateStr, days) {
   return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
 }
 
-function getPeriodRanges(data, mode) {
-  var dates = data.map(function(r) { return r.Date; }).filter(Boolean).sort();
-  if (!dates.length) return null;
-  var latest = dates[dates.length - 1];
-
-  if (mode === 'week') {
-    var curStart = addDays(latest, -6);
-    var curEnd = latest;
-    var prevEnd = addDays(curStart, -1);
-    var prevStart = addDays(prevEnd, -6);
-    return { curStart: curStart, curEnd: curEnd, prevStart: prevStart, prevEnd: prevEnd, curLabel: 'This Week', prevLabel: 'Last Week' };
-  }
-
-  var latestD = new Date(latest + 'T00:00:00');
-  var curStart = latestD.getFullYear() + '-' + pad2(latestD.getMonth() + 1) + '-01';
-  var curEnd = latest;
-  var prevMonthAnchor = new Date(latestD.getFullYear(), latestD.getMonth() - 1, 1);
-  var prevStart = prevMonthAnchor.getFullYear() + '-' + pad2(prevMonthAnchor.getMonth() + 1) + '-01';
-  var prevEndDate = new Date(latestD.getFullYear(), latestD.getMonth(), 0); // last day of previous month
-  var prevEnd = prevEndDate.getFullYear() + '-' + pad2(prevEndDate.getMonth() + 1) + '-' + pad2(prevEndDate.getDate());
-  return { curStart: curStart, curEnd: curEnd, prevStart: prevStart, prevEnd: prevEnd, curLabel: 'This Month', prevLabel: 'Last Month' };
+function daysBetween(startStr, endStr) {
+  var d1 = new Date(startStr + 'T00:00:00');
+  var d2 = new Date(endStr + 'T00:00:00');
+  return Math.round((d2 - d1) / 86400000);
 }
 
 function filterByRange(data, start, end) {
   return data.filter(function(r) { return r.Date && r.Date >= start && r.Date <= end; });
 }
 
-function renderComparison(data) {
+function renderComparison(baseData, from, to) {
   var grid = document.getElementById('comparisonGrid');
   var labelEl = document.getElementById('comparisonRangeLabel');
   if (!grid) return; 
 
-  if (!data || !data.length) {
+  if (!baseData || !baseData.length) {
     grid.innerHTML = '';
     if (labelEl) labelEl.textContent = '';
     return;
   }
 
-  var ranges = getPeriodRanges(data, comparisonMode);
-  if (!ranges) { grid.innerHTML = ''; return; }
+  var allDates = baseData.map(function(r) { return r.Date; }).filter(Boolean).sort();
+  if (!allDates.length) { grid.innerHTML = ''; return; }
 
-  var curData = filterByRange(data, ranges.curStart, ranges.curEnd);
-  var prevData = filterByRange(data, ranges.prevStart, ranges.prevEnd);
+  var curStart = from || allDates[0];
+  var curEnd = to || allDates[allDates.length - 1];
+
+  var periodLength = daysBetween(curStart, curEnd) + 1;
+  var prevEnd = addDays(curStart, -1);
+  var prevStart = addDays(prevEnd, -(periodLength - 1));
+
+  var curData = filterByRange(baseData, curStart, curEnd);
+  var prevData = filterByRange(baseData, prevStart, prevEnd);
 
   if (labelEl) {
-    labelEl.textContent = ranges.curLabel + ' (' + ranges.curStart + ' to ' + ranges.curEnd + ')  vs  ' +
-      ranges.prevLabel + ' (' + ranges.prevStart + ' to ' + ranges.prevEnd + ')';
+    labelEl.textContent = curStart + ' to ' + curEnd + '  vs  ' + prevStart + ' to ' + prevEnd + ' (equal-length prior period)';
+  }
+
+  if (!prevData.length) {
+    grid.innerHTML = '<div class="compare-empty">No data available before ' + curStart +
+      ' — narrow the date filter to a range with history before it to see a comparison.</div>';
+    return;
   }
 
   var metrics = [
@@ -688,17 +710,38 @@ function setupComparisonToggle() {
   weekBtn.dataset.wired = 'true';
 
   weekBtn.addEventListener('click', function() {
-    comparisonMode = 'week';
     weekBtn.classList.add('active');
     monthBtn.classList.remove('active');
-    renderComparison(allData);
+    applyQuickDateRange(7);
   });
   monthBtn.addEventListener('click', function() {
-    comparisonMode = 'month';
     monthBtn.classList.add('active');
     weekBtn.classList.remove('active');
-    renderComparison(allData);
+    applyQuickDateRange(30);
   });
+}
+
+function applyQuickDateRange(trailingDays) {
+  var city = document.getElementById('filterCity').value;
+  var industry = document.getElementById('filterIndustry').value;
+  var campaign = document.getElementById('filterCampaign').value;
+
+  var byNonDateFilters = allData.filter(function(r) {
+    if (city && r.City !== city) return false;
+    if (industry && r.Industry !== industry) return false;
+    if (campaign && r.Campaign_Name !== campaign) return false;
+    return true;
+  });
+
+  var dates = byNonDateFilters.map(function(r) { return r.Date; }).filter(Boolean).sort();
+  if (!dates.length) return;
+
+  var latest = dates[dates.length - 1];
+  var start = addDays(latest, -(trailingDays - 1));
+
+  document.getElementById('filterDateFrom').value = start;
+  document.getElementById('filterDateTo').value = latest;
+  onFilterChange();
 }
 
 function showCleanLog(log) {
