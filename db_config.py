@@ -72,6 +72,3 @@ def insert_campaigns(clean_rows):
 	conn.close()
 	
 	return row_inserted
-
-
-	
