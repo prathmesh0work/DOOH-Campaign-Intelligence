@@ -180,7 +180,6 @@ html.has-saved-dashboard #dashboardScreen {
   padding: 3px 10px;
 }
 
-/* Sample dataset download link */
 .sample-download-link {
   display: block;
   text-align: center;
@@ -195,7 +194,6 @@ html.has-saved-dashboard #dashboardScreen {
   text-decoration: underline;
 }
 
-/* File info card (shown after picking file) */
 .file-info {
   display: none;
   margin-top: 1.1rem;
@@ -282,7 +280,6 @@ html.has-saved-dashboard #dashboardScreen {
   stroke-linecap: round;
 }
 
-/* Progress bar */
 .progress-wrap {
   display: flex;
   align-items: center;
@@ -314,7 +311,7 @@ html.has-saved-dashboard #dashboardScreen {
   min-width: 110px;
 }
 
-/* Message box */
+
 .msg {
   display: none;
   margin-top: 0.85rem;
@@ -337,15 +334,10 @@ html.has-saved-dashboard #dashboardScreen {
   color: var(--blue-dark);
 }
 
-
-/* ═══════════════════════════════════════
-   DASHBOARD SCREEN
-═══════════════════════════════════════ */
 #dashboardScreen {
   padding-bottom: 2rem;
 }
 
-/* Top blue bar */
 .dash-topbar {
   background: var(--blue-dark);
   color: #fff;
@@ -388,7 +380,6 @@ html.has-saved-dashboard #dashboardScreen {
   background: rgba(255,255,255,0.25);
 }
 
-/* Filter bar */
 .filters {
   display: flex;
   flex-wrap: wrap;
@@ -420,7 +411,6 @@ html.has-saved-dashboard #dashboardScreen {
   cursor: pointer;
 }
 
-/* KPI cards grid */
 .kpi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -450,7 +440,6 @@ html.has-saved-dashboard #dashboardScreen {
   margin-top: 0.25rem;
 }
 
-/* Chart rows (2 side by side) */
 .chart-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -466,7 +455,6 @@ html.has-saved-dashboard #dashboardScreen {
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-/* Full width chart */
 .chart-full {
   margin: 0 1.5rem 1rem;
 }
@@ -482,7 +470,6 @@ canvas {
   max-height: 240px;
 }
 
-/* Tables */
 .table-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -554,7 +541,6 @@ tbody td {
   white-space: nowrap;
 }
 
-/* Period comparison */
 .comparison-box {
   margin: 0 1.5rem 1rem;
   background: var(--surface);
@@ -651,7 +637,16 @@ tbody td {
   margin-top: 0.1rem;
 }
 
-/* Auto insights */
+.compare-empty {
+  grid-column: 1 / -1;
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+}
+
 .insights-box {
   margin: 0 1.5rem 1rem;
   background: var(--surface);
