@@ -17,7 +17,7 @@ window.addEventListener('DOMContentLoaded', function() {
     var saved = localStorage.getItem('doohDashboardData');
     if (saved) savedResult = JSON.parse(saved);
   } catch (e) {
-    localStorage.removeItem('doohDashboardData'); // corrupted/unreadable — start clean
+    localStorage.removeItem('doohDashboardData'); 
   }
 
   if (savedResult) {
@@ -145,7 +145,6 @@ window.addEventListener('DOMContentLoaded', function() {
               document.getElementById('uploadScreen').classList.add('hidden');
               document.getElementById('dashboardScreen').classList.remove('hidden');
 
-              // Call the dashboard rendering function
               renderDashboard(result.data, result.log, result.cols, result);
 
             } catch(e) {
